@@ -7,17 +7,17 @@ struct ContentView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
-            Text(formattedDate())
-                .font(.headline)
+            // Text(formattedDate())
+            //     .font(.headline)
         }
         .padding()
     }
 
-    func formattedDate() -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        return formatter.string(from: Date())
-    }
+    // func formattedDate() -> String {
+    //     let formatter = DateFormatter()
+    //     formatter.dateStyle = .full
+    //     return formatter.string(from: Date())
+    // }
 }
 
 #Preview {
