@@ -1,0 +1,37 @@
+name: HelloWorldApp
+options:
+  bundleIdPrefix: com.example
+
+configs:
+  Debug:
+    buildSettings:
+      SWIFT_VERSION: 5.0
+      CODE_SIGN_STYLE: Automatic
+  Release:
+    buildSettings:
+      SWIFT_VERSION: 5.0
+      CODE_SIGN_STYLE: Automatic
+
+settings:
+  base:
+    INFO_PLIST_FILE: HelloWorldApp/Info.plist
+    PRODUCT_BUNDLE_IDENTIFIER: com.example.HelloWorldApp
+    IPHONEOS_DEPLOYMENT_TARGET: '15.0'
+
+targets:
+  HelloWorldApp:
+    type: application
+    platform: iOS
+    deploymentTarget: '15.0'
+    sources:
+      - path: HelloWorldApp
+    resources:
+      - path: HelloWorldApp/Assets.xcassets
+    settings:
+      base:
+        INFO_PLIST_FILE: HelloWorldApp/Info.plist
+        PRODUCT_NAME: HelloWorldApp
+        SWIFT_VERSION: 5.0
+        ENABLE_PREVIEWS: YES
+    scheme:
+      testTargets: []
