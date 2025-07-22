@@ -2,19 +2,15 @@ import XCTest
 
 final class ScreenshotTests: XCTestCase {
 
+    let app = XCUIApplication()
    
-
-    // override func setUp() {
-    //     let app = XCUIApplication()
-    //     super.setUp()
-    //     continueAfterFailure = false
-    //     app.launch()
-    // }
+    override func setUp() {
+        super.setUp()
+        continueAfterFailure = false
+        app.launch()
+    }
 
     func testTakeScreenshotAndSave() {
-        let app = XCUIApplication()
-        app.launch()
-
         XCTAssert(app.staticTexts["Hello world"].exists)
 
         // Wait a moment for UI to render
