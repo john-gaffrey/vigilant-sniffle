@@ -45,10 +45,10 @@ targets:
       - path: HelloWorldAppUITests
     dependencies:
       - target: HelloWorldApp
-    # settings:
+    settings:
     #   base:
         # INFO_PLIST_FILE: HelloWorldAppUITests/Info.plist
-        # PRODUCT_BUNDLE_IDENTIFIER: com.example.HelloWorldAppUITests
+      PRODUCT_BUNDLE_IDENTIFIER: com.example.HelloWorldAppUITests
 
 schemes:
   HelloWorldApp:

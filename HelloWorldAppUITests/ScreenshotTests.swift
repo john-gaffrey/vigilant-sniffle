@@ -2,7 +2,6 @@ import XCTest
 
 final class ScreenshotTests: XCTestCase {
 
-
     func testTakeScreenshotAndSave() {
         let app = XCUIApplication()
         app.launch()
