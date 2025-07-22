@@ -39,8 +39,8 @@ targets:
     platform: iOS
     sources:
       - path: testsDemoTests
-    settings:
-      INFOPLIST_FILE: testsDemoTests/Info.plist
+    # settings:
+    #   INFOPLIST_FILE: testsDemoTests/Info.plist
     dependencies:
       - target: testsDemo
       - package: OHHTTPStubs
@@ -50,8 +50,8 @@ targets:
     platform: iOS
     sources:
       - path: testsDemoUITests
-    settings:
-      INFOPLIST_FILE: testsDemoUITests/Info.plist
+    # settings:
+    #   INFOPLIST_FILE: testsDemoUITests/Info.plist
     dependencies:
       - target: testsDemo
       - package: OHHTTPStubs
