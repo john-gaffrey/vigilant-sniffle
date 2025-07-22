@@ -15,6 +15,8 @@ final class ScreenshotTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
 
+        XCTAssert(app.staticTexts["Hello world"].exists)
+
         // Wait a moment for UI to render
         sleep(1)
 
