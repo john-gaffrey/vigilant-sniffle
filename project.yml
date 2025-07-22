@@ -39,7 +39,8 @@ targets:
     platform: iOS
     sources:
       - path: testsDemoTests
-    # settings:
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
     #   INFOPLIST_FILE: testsDemoTests/Info.plist
     dependencies:
       - target: testsDemo
@@ -50,8 +51,9 @@ targets:
     platform: iOS
     sources:
       - path: testsDemoUITests
-    # settings:
-    #   INFOPLIST_FILE: testsDemoUITests/Info.plist
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      # INFOPLIST_FILE: testsDemoUITests/Info.plist
     dependencies:
       - target: testsDemo
       - package: OHHTTPStubs
