@@ -47,3 +47,15 @@ targets:
       base:
         INFO_PLIST_FILE: HelloWorldAppUITests/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.example.HelloWorldAppUITests
+
+schemes:
+  HelloWorldApp:
+    build:
+      targets:
+        HelloWorldApp: all
+        HelloWorldAppTests: test
+        HelloWorldAppUITests: test
+    test:
+      targets:
+        - HelloWorldAppTests
+        - HelloWorldAppUITests
