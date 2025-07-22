@@ -3,15 +3,12 @@ options:
   minimumXcodeGenVersion: 2.28.0
   # bundleIdPrefix: com.example
 
-# configs:
-#   Debug:
-#     buildSettings:
-#       SWIFT_VERSION: 5.0
-#       CODE_SIGN_STYLE: Automatic
-#   Release:
-#     buildSettings:
-#       SWIFT_VERSION: 5.0
-#       CODE_SIGN_STYLE: Automatic
+configs:
+  Debug:
+    buildSettings:
+      SWIFT_VERSION: 5.0
+      CODE_SIGN_STYLE: Automatic
+      CODE_SIGN_IDENTITY: ""
 
 # settings:
 #   base:
@@ -54,11 +51,11 @@ schemes:
   HelloWorldApp:
     shared: true
     build:
-      # configuration: Debug
+      configuration: Debug
       targets:
         HelloWorldApp: all
         HelloWorldAppUITests: test
     test:
-      # configuration: Debug
+      configuration: Debug
       targets:
         - HelloWorldAppUITests
