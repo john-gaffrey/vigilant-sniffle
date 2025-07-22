@@ -4,13 +4,13 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleDisplayName</key>
-    <string>MyHelloWorldApp</string>
+    <string>HelloWorldApp</string>
     <key>CFBundleIdentifier</key>
-    <string>com.example.MyHelloWorldApp</string>
+    <string>com.example.HelloWorldApp</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleName</key>
-    <string>MyHelloWorldApp</string>
+    <string>HelloWorldApp</string>
     <key>UILaunchStoryboardName</key>
     <string></string>
     <key>UIApplicationSceneManifest</key>

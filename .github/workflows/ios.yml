@@ -25,7 +25,7 @@ jobs:
         run: |
           uname -s
           uname -r
-      - name: install xcodegen
+      - name: Install xcodegen
         run: brew install xcodegen
       - name: Update project with xcodegen
         run: xcodegen

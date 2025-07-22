@@ -35,3 +35,15 @@ targets:
         ENABLE_PREVIEWS: YES
     scheme:
       testTargets: []
+  HelloWorldAppUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: '15.0'
+    sources:
+      - path: HelloWorldAppUITests
+    dependencies:
+      - target: MyHelloWorldApp
+    settings:
+      base:
+        INFO_PLIST_FILE: HelloWorldAppUITests/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.HelloWorldAppUITests
