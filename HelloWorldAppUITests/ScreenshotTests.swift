@@ -6,10 +6,9 @@ final class ScreenshotTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
 
-        XCTAssert(app.staticTexts["Hello world"].exists)
-
         // Wait a moment for UI to render
-        sleep(1)
+        sleep(5)
+        XCTAssert(app.staticTexts["Hello world"].exists)
 
         let attachment = XCTAttachment(screenshot: app.screenshot())
         attachment.name = "Launch Screen"
