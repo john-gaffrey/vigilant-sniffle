@@ -33,8 +33,7 @@ targets:
         PRODUCT_NAME: HelloWorldApp
         SWIFT_VERSION: 5.0
         ENABLE_PREVIEWS: YES
-    scheme:
-      testTargets: []
+
   HelloWorldAppUITests:
     type: bundle.ui-testing
     platform: iOS
@@ -50,10 +49,13 @@ targets:
 
 schemes:
   HelloWorldApp:
+    shared: true
     build:
+      configuration: Debug
       targets:
         HelloWorldApp: all
         HelloWorldAppUITests: test
     test:
+      configuration: Debug
       targets:
         - HelloWorldAppUITests
