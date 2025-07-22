@@ -53,9 +53,7 @@ schemes:
     build:
       targets:
         HelloWorldApp: all
-        HelloWorldAppTests: test
         HelloWorldAppUITests: test
     test:
       targets:
-        - HelloWorldAppTests
         - HelloWorldAppUITests
