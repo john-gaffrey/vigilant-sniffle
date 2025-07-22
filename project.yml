@@ -1,4 +1,4 @@
-name: testsDemo
+name: testsDemoTest
 
 options:
   deploymentTarget:
@@ -22,9 +22,7 @@ configs:
       CODE_SIGN_IDENTITY: ""
 
 targets:
-  # testsDemo:
-
-  testsDemoApp:
+  testsDemo:
     type: application
     platform: iOS
     deploymentTarget: 15.0
@@ -44,7 +42,7 @@ targets:
     settings:
       INFOPLIST_FILE: testsDemoTests/Info.plist
     dependencies:
-      - target: testsDemoApp
+      - target: testsDemo
       - package: OHHTTPStubs
 
   testsDemoUITests:
@@ -55,16 +53,16 @@ targets:
     settings:
       INFOPLIST_FILE: testsDemoUITests/Info.plist
     dependencies:
-      - target: testsDemoApp
+      - target: testsDemo
       - package: OHHTTPStubs
 
 schemes:
-  testsDemoApp:
+  testsDemo:
     shared: true
     build:
       configuration: Debug
       targets:
-        testsDemoApp: all
+        testsDemo: all
         testsDemoTests: test
         testsDemoUITests: test
     test:
