@@ -13,7 +13,14 @@ packages:
   OHHTTPStubs:
     url: https://github.com/AliSoftware/OHHTTPStubs.git
     minorVersion: 9.1.0
-  
+
+configs:
+  Debug:
+    buildSettings:
+      SWIFT_VERSION: 5.0
+      CODE_SIGN_STYLE: Automatic
+      CODE_SIGN_IDENTITY: ""
+
 targets:
   # testsDemo:
 
@@ -38,10 +45,6 @@ targets:
       INFOPLIST_FILE: testsDemoTests/Info.plist
     dependencies:
       - target: testsDemoApp
-    scheme:
-      testTargets:
-        - name: testsDemo_tests
-
 
   testsDemoUITests:
     type: bundle.ui-testing
@@ -52,6 +55,17 @@ targets:
       INFOPLIST_FILE: testsDemoUITests/Info.plist
     dependencies:
       - target: testsDemoApp
-    scheme:
-      testTargets:
-        - name: testsDemoUItests
+
+schemes:
+  testsDemoApp:
+    shared: true
+    build:
+      configuration: Debug
+      targets:
+        testsDemoApp: all
+        testsDemoTests: test
+        testsDemoUITests: test
+    test:
+      configuration: Debug
+      targets:
+        - testsDemoUITests
