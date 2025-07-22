@@ -42,7 +42,7 @@ targets:
     sources:
       - path: HelloWorldAppUITests
     dependencies:
-      - target: MyHelloWorldApp
+      - target: HelloWorldApp
     settings:
       base:
         INFO_PLIST_FILE: HelloWorldAppUITests/Info.plist
