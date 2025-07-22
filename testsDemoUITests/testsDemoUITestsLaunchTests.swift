@@ -23,10 +23,16 @@ final class testsDemoUITestsLaunchTests: XCTestCase {
 
         // Insert steps here to perform after app launch but before taking a screenshot,
         // such as logging into a test account or navigating somewhere in the app
-
-        let attachment = XCTAttachment(screenshot: app.screenshot())
+        let screenshot = app.screenshot()
+        let attachment = XCTAttachment(screenshot: screenshot)
         attachment.name = "Launch Screen"
         attachment.lifetime = .keepAlways
         add(attachment)
+
+        let data = screenshot.pngRepresentation
+        let fileManager = FileManager.default
+        let outputURL = fileManager.temporaryDirectory.appendingPathComponent("screenshot.png")
+        try? data.write(to: outputURL)
+        print("📸 Screenshot saved to: \(outputURL.path)")
     }
 }
