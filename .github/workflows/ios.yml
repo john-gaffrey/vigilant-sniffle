@@ -24,7 +24,11 @@ jobs:
       - name: hello-mac
         run: |
           uname -s
-          uname -r
+          uname -r      
+      - name: Install xcodegen
+        run: brew install xcodegen
+      - name: Update project with xcodegen
+        run: xcodegen
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
