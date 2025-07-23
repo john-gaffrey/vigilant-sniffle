@@ -1,0 +1,13 @@
+name: xcparse_bottle_test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: dev workflow for xcparse bottling
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
