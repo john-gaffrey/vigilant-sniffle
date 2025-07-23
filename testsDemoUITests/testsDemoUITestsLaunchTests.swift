@@ -21,8 +21,12 @@ final class testsDemoUITestsLaunchTests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
 
-        // Insert steps here to perform after app launch but before taking a screenshot,
-        // such as logging into a test account or navigating somewhere in the app
+        sleep(1)
+        let searchBarElement = app.otherElements["searchBar"]
+        searchBarElement.tap()
+        searchBarElement.typeText("google")
+        sleep(1)
+
         let screenshot = app.screenshot()
         let attachment = XCTAttachment(screenshot: screenshot)
         attachment.name = "Launch Screen"
