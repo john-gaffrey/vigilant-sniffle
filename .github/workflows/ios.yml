@@ -15,6 +15,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Get xcparse bottle from cache
         uses: actions/cache/restore@v4
         id: cache-restore-xcparse-bottle
@@ -35,6 +36,7 @@ jobs:
         with:
           key: xcparse-bottle
           path: ./bottles # this must match between save and restore
+
       - name: Install xcparse from bottle 
         if: steps.cache-restore-xcparse-bottle.outputs.cache-hit == 'true'
         run: |
@@ -54,6 +56,7 @@ jobs:
         with:
           key: xcode-cache-deriveddata-${{ github.workflow }}-${{ github.sha }}
           restore-keys: xcode-cache-deriveddata-${{ github.workflow }}-
+          deriveddata-directory: /Users/runner/Library/Developer/Xcode/DerivedData
       - name: Build
         env:
           scheme: ${{ 'default' }}
@@ -69,6 +72,7 @@ jobs:
         with:
           key: xcode-cache-deriveddata-${{ github.workflow }}-${{ github.sha }}
           restore-keys: xcode-cache-deriveddata-${{ github.workflow }}-
+          deriveddata-directory: /Users/runner/Library/Developer/Xcode/DerivedData
       - name: Test
         env:
           scheme: ${{ 'default' }}
