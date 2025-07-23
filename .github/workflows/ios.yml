@@ -1,4 +1,4 @@
-name: iOS starter workflow
+name: iOS app build and test
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
         uses: actions/cache/restore@v4
         id: cache-restore-xcparse-bottle
         with:
-          key: "xcparse-bottle-test"
+          key: xcparse-bottle
           path: ./bottles # this must match between save and restore
       - name: Install and bottle xcparse
         if: steps.cache-restore-xcparse-bottle.outputs.cache-hit != 'true'
@@ -33,7 +33,7 @@ jobs:
         if: steps.cache-restore-xcparse-bottle.outputs.cache-hit != 'true'
         id: xcparse-bottle
         with:
-          key: "xcparse-bottle-test"
+          key: xcparse-bottle
           path: ./bottles # this must match between save and restore
       - name: Install xcparse from bottle 
         if: steps.cache-restore-xcparse-bottle.outputs.cache-hit == 'true'
