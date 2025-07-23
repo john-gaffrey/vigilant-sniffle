@@ -1,0 +1,73 @@
+name: testsDemoTest
+
+options:
+  deploymentTarget:
+    iOS: "15.0"
+
+settings:
+  IPHONEOS_DEPLOYMENT_TARGET: "15.0"
+  MARKETING_VERSION: "1.3.3"
+  CURRENT_PROJECT_VERSION: "14"
+
+packages:
+  OHHTTPStubs:
+    url: https://github.com/AliSoftware/OHHTTPStubs.git
+    minorVersion: 9.1.0
+
+configs:
+  Debug:
+    buildSettings:
+      SWIFT_VERSION: 5.0
+      CODE_SIGN_STYLE: Automatic
+      CODE_SIGN_IDENTITY: ""
+
+targets:
+  testsDemo:
+    type: application
+    platform: iOS
+    deploymentTarget: 15.0
+    dependencies:
+      - package: OHHTTPStubs
+    sources:
+      - path: testsDemo
+    settings:
+      PRODUCT_BUNDLE_IDENTIFITER: "com.example.testsDemo"
+      INFOPLIST_FILE: testsDemo/Info.plist
+    
+  testsDemoTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: testsDemoTests
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+    #   INFOPLIST_FILE: testsDemoTests/Info.plist
+    dependencies:
+      - target: testsDemo
+      - package: OHHTTPStubs
+
+  testsDemoUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: testsDemoUITests
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      # INFOPLIST_FILE: testsDemoUITests/Info.plist
+    dependencies:
+      - target: testsDemo
+      - package: OHHTTPStubs
+
+schemes:
+  testsDemo:
+    shared: true
+    build:
+      configuration: Debug
+      targets:
+        testsDemo: all
+        testsDemoTests: test
+        testsDemoUITests: test
+    test:
+      configuration: Debug
+      targets:
+        - testsDemoUITests

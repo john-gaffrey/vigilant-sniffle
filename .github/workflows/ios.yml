@@ -6,12 +6,6 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
-    inputs:
-      testInput:
-        description: "test input"
-        required: false
-        default: "foo"
-        type: string
 
 jobs:
   build:
@@ -20,14 +14,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - name: hello-mac
-        run: |
-          uname -s
-          uname -r
+        uses: actions/checkout@v4     
+      - name: Install xcodegen
+        run: brew install xcodegen
+      - name: Update project with xcodegen
+        run: xcodegen
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
+          echo $scheme_list
           default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
           echo $default | cat >default
           echo Using default scheme: $default
@@ -41,7 +36,7 @@ jobs:
           if [ $scheme = default ]; then scheme=$(cat default); fi
           if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
-          xcodebuild build-for-testing -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
+          xcodebuild build-for-testing -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" -showBuildTimingSummary
       - name: Test
         env:
           scheme: ${{ 'default' }}
@@ -52,4 +47,16 @@ jobs:
           if [ $scheme = default ]; then scheme=$(cat default); fi
           if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
-          xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
+          xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" -resultBundlePath TestResults.xcresult
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xcode_results
+          path: TestResults.xcresult
+      - name: Export screenshots
+        run: |
+          brew install chargepoint/xcparse/xcparse
+          xcparse screenshots TestResults.xcresult Screenshots/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: Screenshots/
