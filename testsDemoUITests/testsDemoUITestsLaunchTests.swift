@@ -31,8 +31,8 @@ final class testsDemoUITestsLaunchTests: XCTestCase {
 
         let data = screenshot.pngRepresentation
         let fileManager = FileManager.default
-        let artifactDir = fileManager.homeDirectoryForCurrentUser.append("artifacts")
-        let outputURL = artifactDir.append("screenshot.png")
+        let artifactDir = fileManager.homeDirectoryForCurrentUser.appendingPathComponent("artifacts")
+        let outputURL = artifactDir.appendingPathComponent("screenshot.png")
         try? data.write(to: outputURL)
         print("📸 Screenshot saved to: \(outputURL.path)")
     }
