@@ -28,12 +28,5 @@ final class testsDemoUITestsLaunchTests: XCTestCase {
         attachment.name = "Launch Screen"
         attachment.lifetime = .keepAlways
         add(attachment)
-
-        let data = screenshot.pngRepresentation
-        let fileManager = FileManager.default
-        let artifactDir = fileManager.homeDirectoryForCurrentUser.appendingPathComponent("artifacts")
-        let outputURL = artifactDir.appendingPathComponent("screenshot.png")
-        try? data.write(to: outputURL)
-        print("📸 Screenshot saved to: \(outputURL.path)")
     }
 }
