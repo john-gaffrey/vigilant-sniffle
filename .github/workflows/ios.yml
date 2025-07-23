@@ -14,7 +14,31 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4     
+        uses: actions/checkout@v4
+      - name: Get xcparse bottle from cache
+        uses: actions/cache/restore@v4
+        id: cache-restore-xcparse-bottle
+        with:
+          key: "xcparse-bottle-test"
+          path: ./bottles # this must match between save and restore
+      - name: Install and bottle xcparse
+        if: steps.cache-restore-xcparse-bottle.outputs.cache-hit != 'true'
+        run: |
+            brew install chargepoint/xcparse/xcparse --build-bottle
+            brew bottle xcparse
+            mkdir bottles
+            mv ./*bottle*.tar.gz bottles
+      - name: Save bottle to cache
+        uses: actions/cache/save@v4
+        if: steps.cache-restore-xcparse-bottle.outputs.cache-hit != 'true'
+        id: xcparse-bottle
+        with:
+          key: "xcparse-bottle-test"
+          path: ./bottles # this must match between save and restore
+      - name: Install xcparse from bottle 
+        if: steps.cache-restore-xcparse-bottle.outputs.cache-hit == 'true'
+        run: |
+            brew install -f ./bottles/*     
       - name: Install xcodegen
         run: brew install xcodegen
       - name: Update project with xcodegen
