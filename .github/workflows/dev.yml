@@ -1,11 +1,11 @@
-name: xcparse_bottle_test
+name: dev
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: dev workflow for xcparse bottling
+    name: dev workflow, needed for workflow dispatch on feature branches
     runs-on: macos-latest
 
     steps:
