@@ -7,9 +7,6 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
-env:
-  XCODEGEN_VERSION: "2.43.0"
-
 jobs:
   build:
     name: Build and Test default scheme using any available iPhone simulator
@@ -26,37 +23,22 @@ jobs:
         with:
           key: bottles
           path: ./bottles
-      # - name: Install and bottle xcparse
-      #   if: steps.cache-restore-bottles.outputs.cache-hit != 'true'
-      #   run: |
-      #     brew install chargepoint/xcparse/xcparse --build-bottle
-      #     brew bottle xcparse
-      #     mkdir -p bottles
-      #     mv ./*bottle*.tar.gz bottles
+      - name: Install and bottle xcparse
+        if: steps.cache-restore-bottles.outputs.cache-hit != 'true'
+        run: |
+          brew install chargepoint/xcparse/xcparse --build-bottle
+          brew bottle xcparse
+          mkdir -p bottles
+          mv ./*bottle*.tar.gz bottles
       - name: Install and bottle xcodegen
         if: steps.cache-restore-bottles.outputs.cache-hit != 'true'
         run: |
-          # brew does not store version info in formulae
-          # you have to extract it to a local tap
-          # then make a bottle while installing
-          # https://www.ericbariaux.com/posts/brew_rollback/
-          # issues:
-          # - tapping homebrew/core is a large operation, 1GB, therefore, cache misses really hurt.
-          #   - look into how to optimize misses
-          set -x
+          brew install xcodegen --build-bottle
+          brew bottle xcodegen
 
-          # brew tap-new $USER/local-xcodegen
-          # brew tap homebrew/core --force
-          # brew extract --version=$XCODEGEN_VERSION xcodegen $USER/local-xcodegen
-          # brew install xcodegen@$XCODEGEN_VERSION --build-bottle
-          # brew bottle xcodegen
+          mkdir -p bottles
+          mv ./*bottle*.tar.gz bottles
 
-          # mkdir -p bottles
-          # mv ./*bottle*.tar.gz bottles
-          brew update
-          brew install mint
-          mint install yonaskolb/xcodegen@2.43.0
-          export PATH="$PATH:/Users/runner/.mint/bin" # Make xcodegen available
       - name: Install cached bottles
         if: steps.cache-restore-bottles.outputs.cache-hit == 'true'
         run: |
@@ -65,7 +47,7 @@ jobs:
       # build and test project
       - name: Create project with xcodegen
         run: |
-          /Users/runner/.mint/bin/xcodegen
+          xcodegen
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
