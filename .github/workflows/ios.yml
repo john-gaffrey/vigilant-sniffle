@@ -24,6 +24,7 @@ jobs:
       - name: Install and bottle xcparse
         if: steps.cache-restore-xcparse-bottle.outputs.cache-hit != 'true'
         run: |
+            brew update
             brew install chargepoint/xcparse/xcparse --build-bottle
             brew bottle xcparse
             mkdir bottles
@@ -40,7 +41,9 @@ jobs:
         run: |
             brew install -f ./bottles/*     
       - name: Install xcodegen
-        run: brew install xcodegen
+        run: |
+          brew update  
+          brew install xcodegen
       - name: Update project with xcodegen
         run: xcodegen
       - name: Set Default Scheme
