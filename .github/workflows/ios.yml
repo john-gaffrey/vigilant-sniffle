@@ -7,6 +7,9 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  XCODEGEN_VERSION: "2.43.0"
+
 jobs:
   build:
     name: Build and Test default scheme using any available iPhone simulator
@@ -15,33 +18,48 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Get xcparse bottle from cache
-        uses: actions/cache/restore@v4
-        id: cache-restore-xcparse-bottle
+
+      # get or build brew dependencies
+      - name: Get bottles from cache
+        uses: actions/cache@v4
+        id: cache-restore-bottles
         with:
-          key: xcparse-bottle
-          path: ./bottles # this must match between save and restore
+          key: bottles
+          path: ./bottles
       - name: Install and bottle xcparse
-        if: steps.cache-restore-xcparse-bottle.outputs.cache-hit != 'true'
+        if: steps.cache-restore-bottles.outputs.cache-hit != 'true'
         run: |
-            brew install chargepoint/xcparse/xcparse --build-bottle
-            brew bottle xcparse
-            mkdir bottles
-            mv ./*bottle*.tar.gz bottles
-      - name: Save bottle to cache
-        uses: actions/cache/save@v4
-        if: steps.cache-restore-xcparse-bottle.outputs.cache-hit != 'true'
-        id: xcparse-bottle
-        with:
-          key: xcparse-bottle
-          path: ./bottles # this must match between save and restore
-      - name: Install xcparse from bottle 
-        if: steps.cache-restore-xcparse-bottle.outputs.cache-hit == 'true'
+          brew install chargepoint/xcparse/xcparse --build-bottle
+          brew bottle xcparse
+          mkdir -p bottles
+          mv ./*bottle*.tar.gz bottles
+      - name: Install and bottle xcodegen
+        if: steps.cache-restore-bottles.outputs.cache-hit != 'true'
         run: |
-            brew install -f ./bottles/*     
+          # brew does not store version info in formulae
+          # you have to extract it to a local tap
+          # then make a bottle while installing
+          # https://www.ericbariaux.com/posts/brew_rollback/
+          # issues:
+          # - tapping homebrew/core is a large operation 1GB, therefore, cache misses really hurt.
+          #   - look into how to optimize misses
+
+          brew tap-new $USER/local-xcodegen
+          brew tap homebrew/core --force
+          brew extract --version=$XCODEGEN_VERSION xcodegen $USER/local-xcodegen
+          brew install xcodegen@$XCODEGEN_VERSION --build-bottle
+          brew bottle xcodegen
+
+          mkdir -p bottles
+          mv ./*bottle*.tar.gz bottles
+      - name: Install cached bottles
+        if: steps.cache-restore-bottles.outputs.cache-hit == 'true'
+        run: |
+            brew install -f ./bottles/*
+
+      # build and test project
       - name: Create project with xcodegen
         run: |
-          brew install xcodegen@2.43.0
           xcodegen
       - name: Set Default Scheme
         run: |
