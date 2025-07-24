@@ -67,7 +67,7 @@ jobs:
       # build and test project
       - name: Create project with xcodegen
         run: |
-          xcodegen
+          /Users/runner/.mint/bin/xcodegen
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
