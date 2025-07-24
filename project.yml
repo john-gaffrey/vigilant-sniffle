@@ -3,7 +3,8 @@ name: testsDemoTest
 options:
   deploymentTarget:
     iOS: "15.0"
-  xcodeVersion: 15.3
+  xcodeVersion: 15.0
+  objectVersion: 56
 
 settings:
   IPHONEOS_DEPLOYMENT_TARGET: "15.0"
