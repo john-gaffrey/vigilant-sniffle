@@ -26,13 +26,13 @@ jobs:
         with:
           key: bottles
           path: ./bottles
-      - name: Install and bottle xcparse
-        if: steps.cache-restore-bottles.outputs.cache-hit != 'true'
-        run: |
-          brew install chargepoint/xcparse/xcparse --build-bottle
-          brew bottle xcparse
-          mkdir -p bottles
-          mv ./*bottle*.tar.gz bottles
+      # - name: Install and bottle xcparse
+      #   if: steps.cache-restore-bottles.outputs.cache-hit != 'true'
+      #   run: |
+      #     brew install chargepoint/xcparse/xcparse --build-bottle
+      #     brew bottle xcparse
+      #     mkdir -p bottles
+      #     mv ./*bottle*.tar.gz bottles
       - name: Install and bottle xcodegen
         if: steps.cache-restore-bottles.outputs.cache-hit != 'true'
         run: |
