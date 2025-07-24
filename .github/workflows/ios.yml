@@ -45,20 +45,18 @@ jobs:
           #   - look into how to optimize misses
           set -x
 
-          brew update
-          brew upgrade
-          brew tap-new $USER/local-xcodegen
-          brew tap homebrew/core --force
-          brew extract --version=$XCODEGEN_VERSION xcodegen $USER/local-xcodegen
-          brew install xcodegen@$XCODEGEN_VERSION --build-bottle
-          brew bottle xcodegen
+          # brew tap-new $USER/local-xcodegen
+          # brew tap homebrew/core --force
+          # brew extract --version=$XCODEGEN_VERSION xcodegen $USER/local-xcodegen
+          # brew install xcodegen@$XCODEGEN_VERSION --build-bottle
+          # brew bottle xcodegen
 
           # mkdir -p bottles
           # mv ./*bottle*.tar.gz bottles
-          # brew update
-          # brew install mint
-          # mint install yonaskolb/xcodegen@2.43.0
-          # export PATH="$PATH:/Users/runner/.mint/bin" # Make xcodegen available
+          brew update
+          brew install mint
+          mint install yonaskolb/xcodegen@2.43.0
+          export PATH="$PATH:/Users/runner/.mint/bin" # Make xcodegen available
       - name: Install cached bottles
         if: steps.cache-restore-bottles.outputs.cache-hit == 'true'
         run: |
