@@ -39,10 +39,10 @@ jobs:
         if: steps.cache-restore-xcparse-bottle.outputs.cache-hit == 'true'
         run: |
             brew install -f ./bottles/*     
-      - name: Install xcodegen
-        run: brew install xcodegen
-      - name: Update project with xcodegen
-        run: xcodegen
+      - name: Create project with xcodegen
+        run: |
+          brew install xcodegen@2.43.0
+          xcodegen
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
