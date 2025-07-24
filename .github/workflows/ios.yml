@@ -9,6 +9,8 @@ on:
 
 env:
   XCODEGEN_VERSION: 2.43.0
+  MINT_PATH: .mint/lib
+  MINT_LINK_PATH: .mint/bin
 
 jobs:
   build:
@@ -18,41 +20,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Get xcparse bottle from cache
-        uses: actions/cache/restore@v4
-        id: cache-restore-xcparse-bottle
+      - name: Restore mint from cache
+        id: mint-cache
+        uses: actions/cache@v4
         with:
-          key: xcparse-bottle
-          path: ./bottles # this must match between save and restore
-      - name: Install and bottle xcparse
-        if: steps.cache-restore-xcparse-bottle.outputs.cache-hit != 'true'
-        run: |
-            brew install chargepoint/xcparse/xcparse --build-bottle
-            brew bottle xcparse
-            mkdir bottles
-            mv ./*bottle*.tar.gz bottles
-      - name: Save bottle to cache
-        uses: actions/cache/save@v4
-        if: steps.cache-restore-xcparse-bottle.outputs.cache-hit != 'true'
-        id: xcparse-bottle
-        with:
-          key: xcparse-bottle
-          path: ./bottles # this must match between save and restore
-      - name: Install xcparse from bottle 
-        if: steps.cache-restore-xcparse-bottle.outputs.cache-hit == 'true'
-        run: |
-            brew install -f ./bottles/*     
-      - name: Install xcodegen
-        id: xcodegen-install
+          path: .mint
+          key: ${{ runner.os }}-mint-${{ hashFiles('**/Mintfile') }}
+          restore-keys: |
+            ${{ runner.os }}-mint-
+      - name: Install dependencies
+        if: steps.mint-cache.outputs.cache-hit != 'true'
         run: |
           brew update
           brew install mint
+          mint install chargepoint/xcparse
           mint install yonaskolb/xcodegen@${XCODEGEN_VERSION}
-
-          echo "xcodegen_path=/Users/runner/.mint/bin/xcodegen" >> $GITHUB_OUTPUT
       - name: Update project with xcodegen
         run: |
-          ${{ steps.xcodegen-install.outputs.xcodegen_path }}
+          $MINT_LINK_PATH/xcodegen generate
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
@@ -88,7 +73,7 @@ jobs:
           path: TestResults.xcresult
       - name: Export screenshots
         run: |
-          xcparse screenshots TestResults.xcresult Screenshots/
+          $MINT_LINK_PATH/xcparse screenshots TestResults.xcresult Screenshots/
       - uses: actions/upload-artifact@v4
         with:
           name: screenshots
