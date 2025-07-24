@@ -44,8 +44,10 @@ jobs:
         run: |
           brew update  
           brew install xcodegen
+          xcodegen help
+          xcodegen genereate --help
       - name: Update project with xcodegen
-        run: xcodegen
+        run: xcodegen generate
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
