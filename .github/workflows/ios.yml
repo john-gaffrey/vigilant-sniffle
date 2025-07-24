@@ -45,7 +45,7 @@ jobs:
           brew update  
           brew install xcodegen
           xcodegen help
-          xcodegen genereate --help
+          xcodegen generate --help
       - name: Update project with xcodegen
         run: xcodegen generate
       - name: Set Default Scheme
