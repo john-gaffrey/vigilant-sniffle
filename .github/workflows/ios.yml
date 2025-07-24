@@ -41,9 +41,10 @@ jobs:
           # then make a bottle while installing
           # https://www.ericbariaux.com/posts/brew_rollback/
           # issues:
-          # - tapping homebrew/core is a large operation 1GB, therefore, cache misses really hurt.
+          # - tapping homebrew/core is a large operation, 1GB, therefore, cache misses really hurt.
           #   - look into how to optimize misses
-
+          set -x
+          
           brew tap-new $USER/local-xcodegen
           brew tap homebrew/core --force
           brew extract --version=$XCODEGEN_VERSION xcodegen $USER/local-xcodegen
