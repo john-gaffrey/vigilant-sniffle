@@ -7,6 +7,9 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  XCODEGEN_VERSION: 2.43.0
+
 jobs:
   build:
     name: Build and Test default scheme using any available iPhone simulator
@@ -40,9 +43,16 @@ jobs:
         run: |
             brew install -f ./bottles/*     
       - name: Install xcodegen
-        run: brew install xcodegen
+        id: xcodegen-install
+        run: |
+          brew update
+          brew install mint
+          mint install yonaskolb/xcodegen@${XCODEGEN_VERSION}
+
+          echo "xcodegen_path=/Users/runner/.mint/bin/xcodegen" >> $GITHUB_OUTPUT
       - name: Update project with xcodegen
-        run: xcodegen
+        run: |
+          ${{ steps.xcodegen-install.outputs.xcodegen_path }}
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
